@@ -13,7 +13,7 @@ class Node; // Forward declaration
 
 class Element {
 private:
-    Node* nodes; // Currently, there is only support for triangular elements
+    Node** nodes; // Currently, there is only support for triangular elements
     float vertexAngles[3];
 
     int whichNodeOfElement(const Node &_node);

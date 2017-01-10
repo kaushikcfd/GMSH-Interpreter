@@ -9,6 +9,10 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <cstdio>
+#include <string>
+#include <cstring>
+
 #include "Node.h"
 #include "Element.h"
 
@@ -17,11 +21,12 @@ using namespace std;
 class Mesh2D {
 private:
     unsigned noNodes, noElements;
-    Node *nodes;
+    Node **nodes;
     Element *elements;
 
-    void allocateElementArray();
-    
+    void allocateNodes();
+    void allocateElements();
+
 
 public:
     Mesh2D();

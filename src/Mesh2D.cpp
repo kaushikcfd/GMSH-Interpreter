@@ -9,37 +9,57 @@ Mesh2D::Mesh2D() {
     noElements = 0;
 }
 
+/**
+ * This function is used to allocate memory for the `nodes` array once the number of nodes is known.
+ */
+void Mesh2D::allocateNodes() {
+    nodes = new Node*[noNodes];
+    return ;
+}
+
+/**
+ * This function is used to allocate memort for the `elements` array once the number of elements is known.
+ */
+void Mesh2D::allocateElements() {
+    elements = new Element[noElements];
+    return ;
+}
+
+
 void Mesh2D::readFromFile(string filename) {
     FILE *pFile = freopen(filename.c_str(), "r", stdin);
     string s;
     int i, node_no, elm_no, elm_type, tag1, tag2, tag3;
-    float z;// This will always be zeros, as this is the 2D case
+    float node_x, node_y, node_z;// This will always be zeros, as this is the 2D case
+    int node_index1, node_index2, node_index3;
     float thetaStart, thetaEnd;
 
     for(i=0; i<4; i++)// Omitting the top 4 lines, which describe the Mesh Format
         getline(cin, s);
 
-    scanf("%u", &n_nodes);// Reading the number of nodes involved in the mesh
-    nodes_x = allocateFloatArray(n_nodes);// Allocating the memory space for x-cordinates of the nodes.
-    nodes_y = allocateFloatArray(n_nodes);// Allocating the memory space for y-cordinates of the nodes.
-    n_nodes_nbgElements = allocateIntArray(n_nodes);// Allocating the memory space for the nbg. elements of the nodes.
+    scanf("%u", &noNodes);// Reading the number of nodes involved in the mesh
+    allocateNodes();
 
-    for(i=0; i<n_nodes; i++) {
-        scanf("%d %f %f %f", &node_no, &nodes_x[i], &nodes_y[i], &z);// Reading the x,y,z of each node.
-        n_nodes_nbgElements[i] = 0;
+    for(i=0; i<noNodes; i++) {
+        scanf("%d %f %f %f", &node_no, &node_x, &node_y, &node_z);// Reading the x,y,z of each node.
+        nodes[i]->updateCoords(node_x, node_y);
     }
 
     for(i=0; i<3; i++)// Omitting the 2 lines, which describe the syntax of a .msh file
         getline(cin, s);
 
-    scanf("%u", &n_elements);// Reading the number of elements that are to be read.
+    scanf("%u", &noElements);// Reading the number of elements that are to be read.
 
-    allocateElementArray();
-    for(i=0;i<n_elements;i++) {
+    allocateElements();
+    for(i=0;i<noElements;i++) {
         scanf("%d %d",&elm_no, &elm_type);
         if(elm_type == 2){
             // Reading the three nodes of each elements.
-            scanf("%d %d %d %d %d %d", &tag1, &tag2, &tag3, &elementNodes[i][0], &elementNodes[i][1], &elementNodes[i][2]);
+            scanf("%d %d %d %d %d %d", &tag1, &tag2, &tag3, &node_index1, &node_index2, &node_index3);
+            memcpy(elements[i][0], nodes[node_index1], sizeof(Node*));
+            memcpy(elements[i][1], nodes[node_index2], sizeof(Node*));
+            memcpy(elements[i][2], nodes[node_index3], sizeof(Node*));
+
             for (int j=0; j<3; j++) {
                 --elementNodes[i][j];// This is because the numbering of the node should be chosen from 0 based indexing.
                 ++n_nodes_nbgElements[elementNodes[i][j]];// Increasing the nbg nodes for each
