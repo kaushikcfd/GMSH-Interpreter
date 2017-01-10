@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Mesh2D.h"
 
-#define FILE_PATH "/home/kaushikcfd/MyStuff/Dropbox/Infi-EntertainmentStuff/IITB-AcadStuff/Baskar_Project/gmsh_interpreter/square-structured.msh"
+#define FILE_PATH "square-structured.msh"
 
 void displayArray(float *x, unsigned n)
 {
@@ -24,22 +24,6 @@ void displayMatrix(int **A, unsigned m, unsigned n)
 int main() {
     Mesh2D mesh;
     mesh.readFromFile(FILE_PATH);
-    float **A = mesh.getNodesNbgThetaStart();
-    float **B = mesh.getNodesNbgThetaEnd();
-    int **C = mesh.getNbgElements();
-    int *number = mesh.getNoOfNbgElements();
-
-    unsigned i,j;
-    for(i=0; i<mesh.getNoOfNodes(); i++)
-    {
-        printf("Node: %d:\n", i+1);
-        for(j=0;j<number[i];j++)
-            printf("%6.2f\t",A[i][j]);
-        printf("\n");
-        for(j=0;j<number[i];j++)
-            printf("%6.2f\t",B[i][j]);
-        printf("\n------------------------------------\n");
-    }
-
+    mesh.write("Nodes.dat", "Elements.dat");
     return 0;
 }

@@ -32,7 +32,6 @@ void Mesh2D::readFromFile(string filename) {
     int i, node_no, elm_no, elm_type, tag1, tag2, tag3;
     float node_x, node_y, node_z;// This will always be zeros, as this is the 2D case
     int node_index1, node_index2, node_index3;
-    float thetaStart, thetaEnd;
 
     for(i=0; i<4; i++)// Omitting the top 4 lines, which describe the Mesh Format
         getline(cin, s);
@@ -43,6 +42,7 @@ void Mesh2D::readFromFile(string filename) {
     for(i=0; i<noNodes; i++) {
         scanf("%d %f %f %f", &node_no, &node_x, &node_y, &node_z);// Reading the x,y,z of each node.
         nodes[i]->updateCoords(node_x, node_y);
+        nodes[i]->setIndex(i);
     }
 
     for(i=0; i<3; i++)// Omitting the 2 lines, which describe the syntax of a .msh file
@@ -54,11 +54,14 @@ void Mesh2D::readFromFile(string filename) {
     for(i=0;i<noElements;i++) {
         scanf("%d %d",&elm_no, &elm_type);
         if(elm_type == 2){
+            // Setting the index of the element
+            elements[i].setIndex(i);
+
             // Reading the three nodes of each elements.
             scanf("%d %d %d %d %d %d", &tag1, &tag2, &tag3, &node_index1, &node_index2, &node_index3);
-            memcpy(elements[i][0], nodes[node_index1], sizeof(Node*));
-            memcpy(elements[i][1], nodes[node_index2], sizeof(Node*));
-            memcpy(elements[i][2], nodes[node_index3], sizeof(Node*));
+            elements[i].setNode1(nodes[node_index1]);
+            elements[i].setNode2(nodes[node_index2]);
+            elements[i].setNode3(nodes[node_index3]);
 
             for (int j=0; j<3; j++) {
                 elements[i][j]->pushNbgElement(elements[i]);
@@ -78,45 +81,37 @@ void Mesh2D::readFromFile(string filename) {
 }
 
 int Mesh2D::getNoOfNodes(){
-    return n_nodes;
+    return noNodes;
 }
 int Mesh2D::getNoOfElements(){
-    return n_elements;
+    return noElements;
 }
 
-float* Mesh2D::getNodeXAsArray(){
-    return  nodes_x;
-}
-float* Mesh2D::getNodeYAsArray(){
-    return  nodes_y;
+void Mesh2D::write(string nodeFile, string elementFile) {
+
+    int i;
+
+    FILE* pFile = freopen(nodeFile.c_str(), "w", stdout);
+    printf("%d\n", noNodes);
+    for (i=0; i<noNodes; i++) {
+        printf("%6.3f\t%6.3f\n", nodes[i]->getX(), nodes[i]->getY());
+    }
+    fclose(pFile);
+
+    pFile = freopen(elementFile.c_str(), "w", stdout);
+    printf("%d\n", noElements);
+    for(i=0; i<noElements; i++) {
+        printf("%d\t%d\t%d\n", elements[i][0]->getIndex(), elements[i][1]->getIndex(), elements[i][2]->getIndex());
+    }
+    fclose(pFile);
+
+    return ;
 }
 
-int* Mesh2D::getNoOfNbgElements(){
-    return  n_nodes_nbgElements;
-}
-
-int** Mesh2D::getNbgElements(){
-    return  nodes_nbgElements;
-}
-int** Mesh2D::getElementNodes(){
-    return  elementNodes;
-}
-
-float** Mesh2D::getNodesNbgThetaStart() {
-    return nodes_nbgThetaStart;
-}
-
-float** Mesh2D::getNodesNbgThetaEnd() {
-    return nodes_nbgThetaEnd;
-}
 
 Mesh2D::~Mesh2D() {
-    delete [] nodes_x;
-    delete [] nodes_y;
-    for(int i=0; i< n_nodes; i++) {
-        delete [] nodes_nbgElements[i];
-        delete [] nodes_nbgThetaStart[i];
-        delete [] nodes_nbgThetaEnd[i];
-        delete [] elementNodes[i];
-    }
+    for(int i=0; i<noNodes; i++)
+        delete [] nodes[i];
+
+    delete [] elements ;
 }

@@ -21,14 +21,15 @@ using namespace std;
 class Mesh2D {
 private:
     unsigned noNodes, noElements;
-    Node **nodes;
-    Element *elements;
 
     void allocateNodes();
     void allocateElements();
 
 
 public:
+    Node **nodes;
+    Element *elements;
+
     Mesh2D();
     void readFromFile(string filename);
     int getNoOfNodes();
@@ -37,6 +38,11 @@ public:
 
     Node* getNodes();
     int** getElementNodes();
+
+    // Writing the info to the files
+
+    void write(string nodeFile, string elementFile);
+
     ~Mesh2D();
 };
 

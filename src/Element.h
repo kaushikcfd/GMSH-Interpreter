@@ -13,6 +13,7 @@ class Node; // Forward declaration
 
 class Element {
 private:
+    int index;
     Node** nodes; // Currently, there is only support for triangular elements
     float vertexAngles[3];
 
@@ -20,6 +21,11 @@ private:
 
 public:
     Element();
+    void setNode1(Node* _node);
+    void setNode2(Node* _node);
+    void setNode3(Node* _node);
+    void setIndex(int _index);
+    int getIndex();
     Node* operator[](int node_index);
     void assigningOtherCoords(const Node &_node, float &x1, float &y1, float &x2, float &y2);
 };

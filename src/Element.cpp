@@ -10,11 +10,32 @@ Element::Element() {
     nodes = new Node*[3]; /// Assigning only three nodes because, currently considering only unstructured mesh with triangular elements
 }
 
+void Element::setNode1(Node* _node) {
+    nodes[0] = _node;
+    return ;
+}
+
+void Element::setNode2(Node* _node) {
+    nodes[1] = _node;
+    return ;
+}
+
+void Element::setNode3(Node* _node) {
+    nodes[2] = _node;
+    return ;
+}
+
 Node* Element::operator[] (int node_index) {
     return (nodes[node_index]); /// Returned the address of required Node
 }
 
-// TODO: Shift this to Element class
+void Element::setIndex(int _index) {
+    index = _index;
+}
+
+int Element::getIndex() {
+    return index;
+}
 
 int Element::whichNodeOfElement(const Node &_node) {
     for(int i = 0; i < 3; i++) {

@@ -74,3 +74,11 @@ int Node::getNoOfNbgElements() {
 Element* Node::getNbgElements() {
     return nbgElements;
 }
+
+void Node::setIndex(int _index) {
+    index = _index;
+}
+
+int Node::getIndex() {
+    return index;
+}

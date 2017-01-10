@@ -10,6 +10,7 @@ using namespace std;
 
 class Node {
 private:
+    int index;
     float x; /// The x-coordinate of the node
     float y; /// The y-coordinate of the node
     int noOfNbgElements; /// The number of neighbouring elements for the  node
@@ -34,6 +35,10 @@ public:
 
     // Operator
     bool operator==(Node &rhs) const;
+
+    // Index related functions
+    void setIndex(int _index);
+    int getIndex();
 
     // Externing the values to the user
     float getX(); /// For the user to read the value of x-coordinate
