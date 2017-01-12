@@ -36,11 +36,7 @@ public:
     int getNoOfElements();
     int whichNodeOfElement(unsigned node_index, unsigned element_index);
 
-    Node* getNodes();
-    int** getElementNodes();
-
     // Writing the info to the files
-
     void write(string nodeFile, string elementFile);
 
     ~Mesh2D();

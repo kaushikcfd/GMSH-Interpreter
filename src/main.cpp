@@ -25,5 +25,6 @@ int main() {
     Mesh2D mesh;
     mesh.readFromFile(FILE_PATH);
     mesh.write("Nodes.dat", "Elements.dat");
+    printf("Dandasey\n");
     return 0;
 }

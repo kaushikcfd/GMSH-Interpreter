@@ -14,6 +14,8 @@ Mesh2D::Mesh2D() {
  */
 void Mesh2D::allocateNodes() {
     nodes = new Node*[noNodes];
+    for(int i=0; i<noNodes; i++)
+        nodes[i] = new Node;
     return ;
 }
 
@@ -27,7 +29,7 @@ void Mesh2D::allocateElements() {
 
 
 void Mesh2D::readFromFile(string filename) {
-    FILE *pFile = freopen(filename.c_str(), "r", stdin);
+    FILE* pFile = freopen(filename.c_str(), "r", stdin);
     string s;
     int i, node_no, elm_no, elm_type, tag1, tag2, tag3;
     float node_x, node_y, node_z;// This will always be zeros, as this is the 2D case
@@ -51,21 +53,24 @@ void Mesh2D::readFromFile(string filename) {
     scanf("%u", &noElements);// Reading the number of elements that are to be read.
 
     allocateElements();
+
+    printf("%d\n", noElements);
+
     for(i=0;i<noElements;i++) {
         scanf("%d %d",&elm_no, &elm_type);
         if(elm_type == 2){
             // Setting the index of the element
             elements[i].setIndex(i);
-
             // Reading the three nodes of each elements.
             scanf("%d %d %d %d %d %d", &tag1, &tag2, &tag3, &node_index1, &node_index2, &node_index3);
-            elements[i].setNode1(nodes[node_index1]);
-            elements[i].setNode2(nodes[node_index2]);
-            elements[i].setNode3(nodes[node_index3]);
+            elements[i].setNode1(nodes[node_index1-1]);
+            elements[i].setNode2(nodes[node_index2-1]);
+            elements[i].setNode3(nodes[node_index3-1]);
 
             for (int j=0; j<3; j++) {
-                elements[i][j]->pushNbgElement(elements[i]);
+                elements[i][j]->pushNbgElement(&(elements[i]));
             }
+
         }
 
         else{
@@ -76,8 +81,7 @@ void Mesh2D::readFromFile(string filename) {
         }
     }
     fclose(pFile);
-
-    return;
+    return ;
 }
 
 int Mesh2D::getNoOfNodes(){
@@ -89,8 +93,8 @@ int Mesh2D::getNoOfElements(){
 
 void Mesh2D::write(string nodeFile, string elementFile) {
 
-    int i;
 
+    int i;
     FILE* pFile = freopen(nodeFile.c_str(), "w", stdout);
     printf("%d\n", noNodes);
     for (i=0; i<noNodes; i++) {
