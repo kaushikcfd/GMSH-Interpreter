@@ -70,7 +70,6 @@ void Mesh2D::readFromFile(string filename) {
             for (int j=0; j<3; j++) {
                 elements[i][j]->pushNbgElement(&(elements[i]));
             }
-
         }
 
         else{
@@ -110,12 +109,4 @@ void Mesh2D::write(string nodeFile, string elementFile) {
     fclose(pFile);
 
     return ;
-}
-
-
-Mesh2D::~Mesh2D() {
-    for(int i=0; i<noNodes; i++)
-        delete [] nodes[i];
-
-    delete [] elements ;
 }
