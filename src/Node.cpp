@@ -85,4 +85,5 @@ Node::~Node() {
     nbgElements.clear();
     nbgThetaStart.clear();
     nbgThetaEnd.clear();
+    printf("dandase_node\n");
 }
