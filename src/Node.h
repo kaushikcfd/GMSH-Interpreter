@@ -44,6 +44,7 @@ public:
     int getNoOfNbgElements(); /// For the user to read the value of number of nbg Elements
     Element** getNbgElements(); /// For the user to read the value of indices of the nbg Elements
 
+    ~Node();
 };
 
 #endif

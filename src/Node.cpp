@@ -80,3 +80,9 @@ void Node::setIndex(int _index) {
 int Node::getIndex() {
     return index;
 }
+
+Node::~Node() {
+    nbgElements.clear();
+    nbgThetaStart.clear();
+    nbgThetaEnd.clear();
+}
