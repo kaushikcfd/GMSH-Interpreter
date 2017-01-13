@@ -2,6 +2,7 @@
 // Created by kaushikcfd on 7/1/17.
 //
 #include "Element.h"
+#include <iostream>
 #include <vector>
 
 #ifndef GMSH_INTERPRETER_NODE_H

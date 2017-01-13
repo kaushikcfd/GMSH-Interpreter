@@ -68,5 +68,4 @@ void Element::assigningOtherCoords(const Node &_node, float &x1, float &y1, floa
 
 Element::~Element() {
     delete [] nodes;
-    printf("dandase_element\n");
 }

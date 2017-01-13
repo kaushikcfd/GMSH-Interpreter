@@ -5,7 +5,7 @@
 
 #ifndef GMSH_INTERPRETER_ELEMENT_H
 #define GMSH_INTERPRETER_ELEMENT_H
-
+#include <iostream>
 class Node; // Forward declaration
 /**
  * Currently the element is only able to handle triangular elements

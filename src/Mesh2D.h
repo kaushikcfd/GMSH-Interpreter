@@ -38,6 +38,8 @@ public:
 
     // Writing the info to the files
     void write(string nodeFile, string elementFile);
+
+    ~Mesh2D();
 };
 
 #endif //GMSH_INTERPRETER_MESH2D_H

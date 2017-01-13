@@ -54,8 +54,6 @@ void Mesh2D::readFromFile(string filename) {
 
     allocateElements();
 
-    printf("%d\n", noElements);
-
     for(i=0;i<noElements;i++) {
         scanf("%d %d",&elm_no, &elm_type);
         if(elm_type == 2){
@@ -109,4 +107,11 @@ void Mesh2D::write(string nodeFile, string elementFile) {
     fclose(pFile);
 
     return ;
+}
+
+Mesh2D::~Mesh2D() {
+    for (int i=0; i < noNodes; i++)
+        delete nodes[i];
+    delete [] nodes;
+    delete [] elements;
 }
