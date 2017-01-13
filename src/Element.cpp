@@ -25,7 +25,7 @@ void Element::setNode3(Node* _node) {
     return ;
 }
 
-Node* Element::operator[] (int node_index) {
+Node* Element::getNode (int node_index) {
     return (nodes[node_index]); /// Returned the address of required Node
 }
 

@@ -28,7 +28,7 @@ private:
 
 public:
     Node **nodes;
-    Element *elements;
+    Element **elements;
 
     Mesh2D();
     void readFromFile(string filename);

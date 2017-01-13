@@ -25,7 +25,7 @@ public:
     void setNode3(Node* _node);
     void setIndex(int _index);
     int getIndex();
-    Node* operator[](int node_index);
+    Node* getNode(int node_index);
     void assigningOtherCoords(const Node &_node, float &x1, float &y1, float &x2, float &y2);
 
     ~Element();

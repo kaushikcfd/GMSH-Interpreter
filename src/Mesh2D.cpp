@@ -23,7 +23,9 @@ void Mesh2D::allocateNodes() {
  * This function is used to allocate memort for the `elements` array once the number of elements is known.
  */
 void Mesh2D::allocateElements() {
-    elements = new Element[noElements];
+    elements = new Element*[noElements];
+    for(int i=0; i<noElements; i++)
+        elements[i] = new Element;
     return ;
 }
 
@@ -58,15 +60,15 @@ void Mesh2D::readFromFile(string filename) {
         scanf("%d %d",&elm_no, &elm_type);
         if(elm_type == 2){
             // Setting the index of the element
-            elements[i].setIndex(i);
+            elements[i]->setIndex(i);
             // Reading the three nodes of each elements.
             scanf("%d %d %d %d %d %d", &tag1, &tag2, &tag3, &node_index1, &node_index2, &node_index3);
-            elements[i].setNode1(nodes[node_index1-1]);
-            elements[i].setNode2(nodes[node_index2-1]);
-            elements[i].setNode3(nodes[node_index3-1]);
+            elements[i]->setNode1(nodes[node_index1-1]);
+            elements[i]->setNode2(nodes[node_index2-1]);
+            elements[i]->setNode3(nodes[node_index3-1]);
 
             for (int j=0; j<3; j++) {
-                elements[i][j]->pushNbgElement(&(elements[i]));
+                elements[i]->getNode(j)->pushNbgElement(elements[i]);
             }
         }
 
@@ -102,7 +104,7 @@ void Mesh2D::write(string nodeFile, string elementFile) {
     pFile = freopen(elementFile.c_str(), "w", stdout);
     printf("%d\n", noElements);
     for(i=0; i<noElements; i++) {
-        printf("%d\t%d\t%d\n", elements[i][0]->getIndex(), elements[i][1]->getIndex(), elements[i][2]->getIndex());
+        printf("%d\t%d\t%d\n", elements[i]->getNode(0)->getIndex(), elements[i]->getNode(1)->getIndex(), elements[i]->getNode(2)->getIndex());
     }
     fclose(pFile);
 
@@ -113,5 +115,7 @@ Mesh2D::~Mesh2D() {
     for (int i=0; i < noNodes; i++)
         delete nodes[i];
     delete [] nodes;
+    for (int i=0; i < noElements; i++)
+        delete elements[i];
     delete [] elements;
 }
