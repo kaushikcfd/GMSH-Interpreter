@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Mesh2D.h"
 
-#define FILE_PATH "square-structured.msh"
+#define FILE_PATH "arbitrary_unstructured.msh"
 
 void displayArray(float *x, unsigned n)
 {
@@ -24,6 +24,6 @@ void displayMatrix(int **A, unsigned m, unsigned n)
 int main() {
     Mesh2D mesh;
     mesh.readFromFile(FILE_PATH);
-    mesh.write("Nodes.dat", "Elements.dat");
+    mesh.write("arbit_Nodes.dat", "arbit_Elements.dat");
     return 0;
 }
