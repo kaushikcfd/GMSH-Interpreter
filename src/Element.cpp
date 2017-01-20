@@ -37,16 +37,16 @@ int Element::getIndex() {
     return index;
 }
 
-int Element::whichNodeOfElement(const Node &_node) {
+int Element::whichNodeOfElement(const Node* const _node) {
     for(int i = 0; i < 3; i++) {
-        if(&_node == nodes[i])
+        if(_node == nodes[i])
             return i;
     }
     printf("Not found Node at the end of the element. Exit!\n");
     return -1;
 }
 
-void Element::assigningOtherCoords(const Node &_node, float &x1, float &y1, float &x2,
+void Element::assigningOtherCoords(const Node* const _node, float &x1, float &y1, float &x2,
                                   float &y2) {
     int count = 0;
     int node_indexInElement = whichNodeOfElement(_node);
